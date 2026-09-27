@@ -1,0 +1,14 @@
+<settings>
+    <setting propertyKey="@Properties.token" title="@Strings.TokenTitle">
+        <settingConfig type="alphaNumeric"/>
+    </setting>
+    <setting propertyKey="@Properties.baseUrl" title="@Strings.UrlTitle">
+        <settingConfig type="alphaNumeric"/>
+    </setting>
+    <setting propertyKey="@Properties.lowMgdl" title="@Strings.LowTitle">
+        <settingConfig type="numeric" min="40" max="150"/>
+    </setting>
+    <setting propertyKey="@Properties.highMgdl" title="@Strings.HighTitle">
+        <settingConfig type="numeric" min="120" max="400"/>
+    </setting>
+</settings>

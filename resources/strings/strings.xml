@@ -1,0 +1,8 @@
+<strings>
+    <string id="AppName">Glucose Face</string>
+
+    <string id="TokenTitle">BG read token</string>
+    <string id="UrlTitle">API URL</string>
+    <string id="LowTitle">Low threshold (mg/dL)</string>
+    <string id="HighTitle">High threshold (mg/dL)</string>
+</strings>
