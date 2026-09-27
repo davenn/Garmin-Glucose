@@ -73,8 +73,8 @@ class GlucoseService extends System.ServiceDelegate {
             spark = splitNumbers(data.substring(nl + 1, data.length()));
         }
 
-        // Store the reading's absolute time, not minutes_ago: the face redraws
-        // every minute between fetches and has to age the number on its own.
+        // Store the reading's absolute time, not minutes_ago: the field redraws every
+        // second between fetches and has to age the number on its own.
         Background.exit({
             "mgdl"  => head[0],
             "trend" => head[1],
