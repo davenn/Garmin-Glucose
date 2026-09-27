@@ -1,0 +1,6 @@
+<fitContributions>
+    <!-- id matches createField(..., 0, ...) in GlucoseField. -->
+    <fitField id="0" displayInChart="true" sortOrder="0" precision="0"
+              chartTitle="@Strings.ChartTitle" dataLabel="@Strings.DataLabel"
+              unitLabel="@Strings.UnitLabel" fillColor="#2E7D32"/>
+</fitContributions>

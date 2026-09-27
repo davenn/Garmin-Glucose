@@ -1,8 +1,13 @@
 <strings>
-    <string id="AppName">Glucose Face</string>
+    <string id="AppName">Glucose</string>
 
     <string id="TokenTitle">BG read token</string>
     <string id="UrlTitle">API URL</string>
     <string id="LowTitle">Low threshold (mg/dL)</string>
     <string id="HighTitle">High threshold (mg/dL)</string>
+
+    <!-- How the recorded value appears in Garmin Connect's activity charts. -->
+    <string id="ChartTitle">Glucose</string>
+    <string id="DataLabel">Glucose</string>
+    <string id="UnitLabel">mg/dL</string>
 </strings>
