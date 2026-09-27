@@ -33,11 +33,16 @@ class GlucoseService extends System.ServiceDelegate {
             url = "https://davenn.com/api.php";
         }
 
+        // The token goes in a header rather than ?token=, which would land in
+        // the web host's access logs. The token is the watch's whole identity:
+        // when davenn.com serves more than one person, a per-user token picks
+        // whose readings come back and nothing on the watch has to change.
         Communications.makeWebRequest(
             url,
-            { "action" => "bg_embed", "token" => token, "spark" => SPARK_POINTS },
+            { "action" => "bg_embed", "spark" => SPARK_POINTS },
             {
                 :method       => Communications.HTTP_REQUEST_METHOD_GET,
+                :headers      => { "X-BG-Token" => token },
                 :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_TEXT_PLAIN
             },
             method(:onResponse)
