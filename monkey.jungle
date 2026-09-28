@@ -1,1 +1,6 @@
 project.manifest = manifest.xml
+
+# The activity data field. shared/ and resources/ are also built into the
+# widget (widget/monkey.jungle); resources-field/ is the field's own.
+base.sourcePath = source;shared
+base.resourcePath = resources;resources-field

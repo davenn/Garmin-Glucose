@@ -5,6 +5,9 @@
     <setting propertyKey="@Properties.baseUrl" title="@Strings.UrlTitle">
         <settingConfig type="alphaNumeric"/>
     </setting>
+    <setting propertyKey="@Properties.name" title="@Strings.NameTitle">
+        <settingConfig type="alphaNumeric"/>
+    </setting>
     <setting propertyKey="@Properties.lowMgdl" title="@Strings.LowTitle">
         <settingConfig type="numeric" min="40" max="150"/>
     </setting>

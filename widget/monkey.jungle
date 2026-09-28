@@ -1,0 +1,6 @@
+project.manifest = manifest.xml
+
+# The glance + widget. The fetch, drawing, settings and icon are shared with
+# the activity data field one level up.
+base.sourcePath = source;../shared
+base.resourcePath = ../resources

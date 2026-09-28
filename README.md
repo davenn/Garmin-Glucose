@@ -1,15 +1,38 @@
 # Garmin-Glucose
 
-A Connect IQ **activity data field** for the Forerunner 255 / 255S / 955 that
-shows the current CGM reading and its trend during a run, and records it into
-the activity so it can be charted next to heart rate and pace afterwards.
+Two Connect IQ apps for the Forerunner 255 / 255 Music / 255S / 955 that show
+the current CGM reading and its trend:
+
+- **Glance + widget** (`widget/`): a row in the watch's glance list, any time
+  of day. Select it for the full screen with a 3-hour sparkline.
+- **Activity data field** (root): the reading during a run, recorded into the
+  activity so it can be charted next to heart rate and pace afterwards.
 
 Readings come from davenn.com's `bg_embed` endpoint, the plain-text variant of
 the glucose API built for small devices. The watch only holds the
 **read-only** `BG_READ_TOKEN`, sent in the `X-BG-Token` header: never the
 admin secret, never Dexcom credentials. It never calls Dexcom.
 
-## What it shows
+## The glance and widget
+
+In the glance list (press UP or DOWN from the watch face):
+
+```
+LEVI  3M AGO
+142 ↗ IN RANGE
+```
+
+The first line shows the **name** setting (`GLUCOSE` if it is empty) and how old
+the reading is. Once the reading is old, it shows why fetches are failing
+instead. Press START on the glance to open the full screen: the same layout as
+the full-screen data field. It fetches straight away, shows `UPDATING` while it
+waits, and fetches again on START.
+
+A background fetch runs every 5 minutes all day, whether or not the widget is
+open, so the glance is already current when you scroll to it. Music watches
+keep glances running, so the glance also redraws as each reading comes in.
+
+## What the data field shows
 
 The field adapts to the slot it is placed in:
 
@@ -34,10 +57,20 @@ The low and high thresholds are settings (default 70 / 180 mg/dL).
 
 | File | Role |
 |---|---|
-| `source/GlucoseApp.mc` | Schedules fetches; stores what the background returns |
-| `source/GlucoseService.mc` | Background process: GET `api.php?action=bg_embed&spark=36`, parse, hand back |
-| `source/GlucoseField.mc` | Draws from stored data; writes the value to the activity's FIT file |
-| `resources/fit/fitcontributions.xml` | How the recorded value is labelled in Garmin Connect |
+| `shared/GlucoseApi.mc` | GET `api.php?action=bg_embed&spark=36`, parse, store |
+| `shared/GlucoseService.mc` | Background process: fetch, hand the result to the app |
+| `shared/GlucoseUi.mc` | Colours, ageing, value + arrow, sparkline, adaptive layout |
+| `resources/` | Settings, strings, icon (both apps) |
+| `source/GlucoseApp.mc` | Data field: schedules fetches during an activity |
+| `source/GlucoseField.mc` | Data field: draws; writes the value to the activity's FIT file |
+| `resources-field/fit/fitcontributions.xml` | How the recorded value is labelled in Garmin Connect |
+| `widget/source/GlucoseWidgetApp.mc` | Widget: schedules the all-day 5-minute fetch |
+| `widget/source/GlucoseGlance.mc` | Widget: the two-line glance |
+| `widget/source/GlucoseView.mc` | Widget: full screen; fetches on open and on START |
+
+The two apps are separate Connect IQ projects (`monkey.jungle` at the root,
+`widget/monkey.jungle`) built from the same `shared/` code and `resources/`.
+They are installed and configured separately.
 
 Data fields fetch through a background service that Connect IQ wakes at most
 every 5 minutes, which is also the CGM's sample rate. Since a field only runs
@@ -75,6 +108,16 @@ monkeyc -d fr255 -f monkey.jungle -o bin/Glucose.prg -y developer_key.der
 monkeydo bin/Glucose.prg fr255
 ```
 
+For the widget, open `widget/` as the folder (or pass `-f widget/monkey.jungle`)
+and choose `fr255m`. The simulator can show the glance or the full widget; switch
+between them in its menus. Trigger a background fetch the same way, or open the
+widget, which fetches on its own.
+
+```sh
+monkeyc -d fr255m -f widget/monkey.jungle -o bin/GlucoseWidget.prg -y developer_key.der
+monkeydo bin/GlucoseWidget.prg fr255m
+```
+
 ## Getting it on the watch
 
 **Settings only work for store-installed apps**, so:
@@ -87,6 +130,9 @@ monkeydo bin/Glucose.prg fr255
    `resources/properties.xml` **locally, without committing it**, run
    **Monkey C: Build for Device**, and copy the `.prg` to `GARMIN/APPS/` over USB.
 
-Then add it to an activity screen on the watch: open the activity (e.g. Run) →
+Enter the token (and optionally the name, e.g. `Levi`) in each app's settings.
+
+The widget adds itself to the glance list; reorder it from the watch face →
+hold UP → Glances. Add the data field to an activity screen on the watch: open the activity (e.g. Run) →
 hold UP → Run Settings → Data Screens → pick a screen → change a field →
 Connect IQ → Glucose.

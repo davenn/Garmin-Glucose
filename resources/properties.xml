@@ -2,6 +2,8 @@
     <!-- The read-only BG_READ_TOKEN from davenn.com, never the admin secret. -->
     <property id="token" type="string"></property>
     <property id="baseUrl" type="string">https://davenn.com/api.php</property>
+    <!-- Shown above the reading, e.g. whose it is. Empty shows GLUCOSE. -->
+    <property id="name" type="string"></property>
     <property id="lowMgdl" type="number">70</property>
     <property id="highMgdl" type="number">180</property>
 </properties>

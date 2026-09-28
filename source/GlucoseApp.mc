@@ -30,19 +30,9 @@ class GlucoseApp extends Application.AppBase {
     }
 
     // Runs in the foreground with whatever GlucoseService passed to
-    // Background.exit(). A failed fetch keeps the last good reading: the field
-    // ages it on screen rather than blanking it, and shows why it is not
-    // updating.
+    // Background.exit().
     function onBackgroundData(data) {
-        if (data instanceof Dictionary) {
-            var err = data.get("error");
-            if (err != null) {
-                Application.Storage.setValue("error", err);
-            } else {
-                Application.Storage.setValue("reading", data);
-                Application.Storage.deleteValue("error");
-            }
-        }
+        GlucoseApi.store(data);
         // The first fetch of an activity is a one-shot; from here on, every
         // 5 minutes.
         Background.registerForTemporalEvent(new Time.Duration(FIVE_MINUTES));

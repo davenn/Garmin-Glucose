@@ -3,6 +3,7 @@
 
     <string id="TokenTitle">BG read token</string>
     <string id="UrlTitle">API URL</string>
+    <string id="NameTitle">Name shown above the reading</string>
     <string id="LowTitle">Low threshold (mg/dL)</string>
     <string id="HighTitle">High threshold (mg/dL)</string>
 

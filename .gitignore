@@ -3,3 +3,14 @@ bin/
 *.pem
 *.prg
 *.iq
+
+# Signing key under the name VS Code gives it (no extension).
+developer_key
+
+# Build output the Monkey C extension can leave outside bin/.
+gen/
+mir/
+internal-mir/
+*.prg.debug.xml
+*-settings.json
+*-fit_contributions.json
